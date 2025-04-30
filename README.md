@@ -53,4 +53,4 @@ LiteWAF is a simple Web Application Firewall (WAF) designed to detect and block 
 To run the WAF server:
 
 ```bash
-python love.py
+python litewaf.py
