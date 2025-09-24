@@ -1,56 +1,80 @@
-# LiteWAF 
+MaxWAF 🛡️
+==========
 
-LiteWAF is a simple Web Application Firewall (WAF) designed to detect and block malicious activities such as DDoS, XSS, SQL Injection, and XML Injection attacks. It works by inspecting incoming HTTP requests and checking for malicious patterns in the request data, such as query parameters, POST bodies, and headers.
+MaxWAF is an intelligent, proxy-based Web Application Firewall (WAF) designed to provide robust, context-aware protection for your web applications. It goes beyond simple pattern matching by using a threat-scoring engine to reduce false positives and implementing advanced normalization techniques to detect evasive attacks.
 
-## Features
+It inspects all incoming HTTP requests and leverages a Redis backend for high-performance rate limiting and IP banning. All detected threats are logged to a real-time security dashboard for immediate analysis.
 
-- **DDoS Protection**: Limits the number of requests from a single IP in a specified time window.
-- **XSS Protection**: Detects and blocks potential Cross-Site Scripting (XSS) attacks.
-- **SQL Injection Protection**: Identifies and blocks SQL Injection (SQLi) attempts.
-- **XML Injection Protection**: Protects against XML-based injection attacks.
-- **Malicious Activity Logging**: Logs detected malicious activities for further analysis.
+Key Features
+------------
 
-## Requirements
+*   **🧠 Intelligent Threat Scoring:** Instead of blocking on the first trigger, MaxWAF accumulates a threat score for each request. A request is only blocked if its score exceeds a configurable threshold, dramatically reducing false positives.
+    
+*   **🛡️ Comprehensive Threat Coverage:** Protects against a wide range of common and emerging vulnerabilities:
+    
+    *   SQL Injection (SQLi)
+        
+    *   Cross-Site Scripting (XSS)
+        
+    *   Command Injection
+        
+    *   XML External Entity (XXE)
+        
+    *   Directory Traversal
+        
+    *   Server-Side Request Forgery (SSRF)
+        
+    *   JWT alg:none Manipulation
+        
+*   **🤺 Adversarial Robustness:** Implements multi-layered input normalization (URL decoding, HTML entity decoding, lowercasing) to counter common evasion techniques used by attackers.
+    
+*   **⚡ High-Performance DDoS Protection:** Utilizes a Redis backend for fast, efficient rate limiting and temporary IP banning of malicious actors.
+    
+*   **📊 Real-time Security Dashboard:** A separate logger service provides a clean, web-based dashboard that displays all detected security events as they happen, with filtering capabilities.
+    
+*   **🔧 Flexible Configuration:** All settings are managed via environment variables for easy integration into containerized and cloud environments.
+    
+*   **🚀 Production-Ready:** Includes guidance for deployment using a production-grade WSGI server like Gunicorn.
+    
 
-- Python 3.x
-- Required Python packages (which can be installed using `pip`):
-    - `http.client`
-    - `http.server`
-    - `urllib.parse`
-    - `csv`
-    - `threading`
-    - `time`
-    - `os`
+Requirements
+------------
 
-## Installation
+*   Python 3.8+
+    
+*   A running **Redis Server** instance
+    
+*   Required Python packages, which can be installed from requirements.txt.
+    
 
-1. Clone the repository or download the files:
-    ```bash
-    git clone https://github.com/krishnagopaljha/love.git
-    cd love
-    ```
+Installation
+------------
 
-2. Install the required dependencies (Till today every package added is a part of python standard library so there is no need to manully install anything`):
-    ```bash
-    pip install -r requirements.txt
-    ```
+1.  Bashgit clone cd
+    
+2.  bleachFlaskgunicornlxmlredisrequestssqlparse
+    
+3.  Bashpip install -r requirements.txt
+    
+4.  **Ensure Redis is running** and accessible from where you are running the WAF.
+    
 
-3. Make sure the necessary folders and files are present (e.g., `logs`, `database/xss.csv`, `database/sqli.csv`, and `database/xml.csv`).
+Configuration
+-------------
 
-## Configuration
+MaxWAF is configured entirely through environment variables. You can set them in your terminal, a .env file, or your deployment environment.
 
-- **WAF_HOST**: The IP address where the WAF server will listen. Default is `0.0.0.0` (binds to all network interfaces).
-- **WAF_PORT**: The port on which the WAF server listens. Default is `8080`.
-- **UPSTREAM_HOST**: The IP address of the upstream server. Default is `127.0.0.1`.
-- **UPSTREAM_PORT**: The port of the upstream server. Default is `80`.
-- **LOG_FILE**: Path to the log file where malicious activities are recorded. Default is `logs/malicious.log`.
-- **MAX_REQUESTS**: The maximum number of requests an IP can make in the specified time window (in seconds). Default is `100`.
-- **TIME_WINDOW**: Time window for DDoS detection in seconds. Default is `60` seconds.
-- **REDIRECT_URL**: URL where the user will be redirected if malicious activity is detected.
+VariableDescriptionDefaultREAL\_APP\_HOSTThe hostname or IP of your backend web application.localhostREAL\_APP\_PORTThe port your backend web application is running on.80REDIS\_HOSTThe hostname or IP of your Redis server.localhostREDIS\_PORTThe port your Redis server is running on.6379RATE\_LIMIT\_COUNTMax requests per IP within the time window.100RATE\_LIMIT\_WINDOWThe time window for rate limiting, in seconds.60BAN\_DURATIONHow long an IP is banned after hitting the BAN\_SCORE\_THRESHOLD, in seconds.300THREAT\_SCORE\_THRESHOLDA request with a score above this will be **blocked** (403).15BAN\_SCORE\_THRESHOLDA request with a score above this will cause the source IP to be **banned**.25WAF\_MODESet to passthrough to disable all security checks for benchmarking.enforcingExport to Sheets
 
-## Running the WAF
+Running the WAF
+---------------
 
-To run the WAF server:
+Bash
 
-```bash
-python litewaf.py
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   redis-server   `
+
+**Run the Logger Service (in a separate terminal/process):**
+
+Bash
+
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python logger.py   `
