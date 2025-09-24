@@ -64,7 +64,17 @@ Configuration
 
 MaxWAF is configured entirely through environment variables. You can set them in your terminal, a .env file, or your deployment environment.
 
-VariableDescriptionDefaultREAL\_APP\_HOSTThe hostname or IP of your backend web application.localhostREAL\_APP\_PORTThe port your backend web application is running on.80REDIS\_HOSTThe hostname or IP of your Redis server.localhostREDIS\_PORTThe port your Redis server is running on.6379RATE\_LIMIT\_COUNTMax requests per IP within the time window.100RATE\_LIMIT\_WINDOWThe time window for rate limiting, in seconds.60BAN\_DURATIONHow long an IP is banned after hitting the BAN\_SCORE\_THRESHOLD, in seconds.300THREAT\_SCORE\_THRESHOLDA request with a score above this will be **blocked** (403).15BAN\_SCORE\_THRESHOLDA request with a score above this will cause the source IP to be **banned**.25WAF\_MODESet to passthrough to disable all security checks for benchmarking.enforcingExport to Sheets
+Variable	Description	Default
+REAL_APP_HOST	The hostname or IP of your backend web application.	localhost
+REAL_APP_PORT	The port your backend web application is running on.	80
+REDIS_HOST	The hostname or IP of your Redis server.	localhost
+REDIS_PORT	The port your Redis server is running on.	6379
+RATE_LIMIT_COUNT	Max requests per IP within the time window.	100
+RATE_LIMIT_WINDOW	The time window for rate limiting, in seconds.	60
+BAN_DURATION	How long an IP is banned after hitting the BAN_SCORE_THRESHOLD, in seconds.	300
+THREAT_SCORE_THRESHOLD	A request with a score above this will be blocked (403).	15
+BAN_SCORE_THRESHOLD	A request with a score above this will cause the source IP to be banned.	25
+WAF_MODE	Set to passthrough to disable all security checks for benchmarking.	enforcing
 
 Running the WAF
 ---------------
